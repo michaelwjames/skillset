@@ -10,6 +10,16 @@ For more information, see the `agent_skills_spec.md` file in this repository.
 
 This repository contains example skills that demonstrate what's possible with AI agent skills systems. 
 
+## Flagship Skill: `tax-assistant/`
+
+The **tax-assistant** skill is our flagship workflow. It orchestrates multi-document tax preparation by combining OCR, institution-specific references, and country-level compliance guidance:
+
+- Processes PDF/CSV statements with deterministic Groq OCR.
+- Normalises institution outputs to the fiscal year and currency described in `tax-assistant/references/country_tax_details.md`.
+- Maintains auditable spreadsheets under `tax-assistant/spreadsheets/` and produces a post-run `review.md`.
+
+Start by reading `tax-assistant/README.md` for human setup steps, then load `tax-assistant/SKILL.md` in your agent to execute the full workflow.
+
 Each skill is self-contained in its own directory with a `SKILL.md` file containing the instructions and metadata that AI agents use. Browse through these examples to get inspiration for your own skills or to understand different patterns and approaches.
 
 The example skills in this repo are open source (Apache 2.0).
