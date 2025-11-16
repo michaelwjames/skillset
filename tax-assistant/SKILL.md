@@ -1,0 +1,21 @@
+---
+name: tax-assistant
+description: A skill to assist with tax submissions by processing financial documents, normalizing data, and updating spreadsheets with country-specific context.
+---
+
+# Workflow
+
+1. **Input:** The user provides a folder of PDF or CSV documents containing financial information. The folder and file names should provide context about the financial institution and date range.
+2. **Iteration:** The agent iterates through each file alphabetically.
+3. **Country Context:** Before processing any files, review `references/country_tax_details.md` to understand the applicable tax authority, fiscal year boundaries, local currency, and any country-specific adjustments that must be applied across institutions. If this document is a stub, the agent should ask the user to provide a relevant source for regenerating the document. When this occurs, all spreadsheet stubs in the `spreadsheets` directory should be updated with country-specific columns, while retaining the generic columns.
+4. **Institution-Specific Knowledge:** For each file, the agent consults a knowledge base of `.md` files stored in the skill's `references` folder. Each file corresponds to a specific financial institution and contains instructions for processing its documents.
+5. **New Institution Reference (Conditional):** Before processing a file, try to infer the financial institution name from the folder or filename (e.g. `discovery`, `easy_equities`, `standard_bank`) and check for a corresponding `.md` reference file in the `references` folder. If no suitable reference document exists or the existing reference file is a stub for that institution, the agent must create/elaborate the markdown reference file in `references` (using a clear, institution-specific structure with `acronym_institution_name.md`). Use `template.md` as a base and outline how to normalize that institution's statements for the fiscal year and tax fields defined in `references/country_tax_details.md`.
+6. **PDF Processing:** If the file is a PDF, the agent uses the `pdf-vision-ocr` skill to convert it to a `.md` file, providing a **generic OCR prompt** that asks for faithful extraction of all text and tables.
+7. **Data Extraction:** The agent inspects the generated `.md` file and applies the institution-specific knowledge from the relevant reference document to locate and interpret the target data fields.
+8. **Normalization:** When necessary, normalize the extracted data to the official currency and fiscal year dates described in `references/country_tax_details.md`. This may involve consulting `references/forex_rates.csv` (or equivalent) when conversions are required.
+9. **Spreadsheet Update:** Update the relevant `.csv` stub spreadsheet with the actual figures. If a spreadsheet is lacking for a relevant tax code or field, create a new stub spreadsheet.
+10. **Statement of Assets & Liabilities Update:** Whenever possible, update the market value of any assets as at the end of the fiscal year in `spreadsheets\statement_of_assets_and_liabilities.csv`. **IMPORTANT:** Review the local tax authority's guidance (see `references/country_tax_details.md` for the authoritative source) before updating this file.
+11. **Auditing:** Add file and line number references for each entry for auditing purposes. All file references must point to the generated `.md` files, not the original `.pdf` files.
+12. **File Completion:** Move on to the next file until all files have been processed.
+13. **Final Audit:** After all files have been processed, conduct a comprehensive audit of all spreadsheets to ensure the data is accurate and that all entries have the correct file and line number references.
+14. **Process Review:** After completing the final audit, write up a `review.md` document noting any issues, ambiguities or insights that may have arisen while processing the documents and completing the tax spreadsheets. Conclude with recommendations for improving the `SKILL.md` file or any other skill guidance documentation.

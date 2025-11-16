@@ -9,3 +9,5 @@
 | `pdf-operations/` | Merge, split, compress, watermark, and extract data from PDFs. | Python 3.10+, `pypdf`, `pdfminer.six`, `reportlab`, `Pillow`. |
 | `groq-vision-ocr/` | Run the bundled Groq Llama 4 Scout CLI to extract text or tables from local/remote images with deterministic OCR prompts. | Python 3.10+, `groq` package, `.env` containing `GROQ_API_KEY`. |
 | `pdf-vision-ocr/` | Convert PDFs to page images and send them through Groq Llama 4 Scout OCR to capture tables or text. | Python 3.10+, `groq`, `pdf2image` (requires poppler), `.env` with `GROQ_API_KEY`. |
+| `tax-assistant/` | Process tax-relevant documents, extract data, and update spreadsheets with country-specific context. | Python 3.12, `groq`, `pdf2image` (requires poppler), `.env` with `GROQ_API_KEY`. |
+
