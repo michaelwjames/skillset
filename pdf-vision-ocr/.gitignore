@@ -1,0 +1,11 @@
+# Ignore virtualenv and other local artifacts
+.venv/
+venv/
+__pycache__/
+*.pyc
+
+# Ignore output directories
+outputs/
+
+# .env
+.env

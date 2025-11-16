@@ -1,0 +1,5 @@
+pypdf
+pdfminer.six
+reportlab
+Pillow
+pdf2image
